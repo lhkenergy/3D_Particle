@@ -57,6 +57,21 @@
             </div>
 
             <div class="control-group">
+                <label>模型大小</label>
+                <input type="range" id="shape-scale-slider" min="0.5" max="3.0" step="0.1" value="1.0">
+            </div>
+
+            <div class="control-group">
+                <label>旋转速度 (中间停止)</label>
+                <input type="range" id="rotation-slider" min="-0.05" max="0.05" step="0.001" value="0.002">
+            </div>
+
+            <div class="control-group" style="display: flex; align-items: center; gap: 10px;">
+                <input type="checkbox" id="gesture-toggle" checked style="width: auto; height: auto;">
+                <label for="gesture-toggle" style="margin: 0; cursor: pointer;">启用手势控制</label>
+            </div>
+
+            <div class="control-group">
                 <label>状态: <span id="status-text">等待摄像头...</span></label>
             </div>
 
