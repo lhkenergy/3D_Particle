@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D 粒子系统 - 手势交互</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+    <!-- MediaPipe Hands -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    
+    <!-- 隐藏的视频元素，用于 MediaPipe 处理 -->
+    <video id="input-video" style="display: none;"></video>
+
+    <div id="ui-container">
+        <div class="panel">
+            <h2>粒子控制台</h2>
+            <div class="control-group">
+                <label>模型选择</label>
+                <div class="model-buttons">
+                    <button class="model-btn active" data-model="heart">爱心</button>
+                    <button class="model-btn" data-model="flower">花朵</button>
+                    <button class="model-btn" data-model="saturn">土星</button>
+                    <button class="model-btn" data-model="buddha">佛像</button>
+                    <button class="model-btn" data-model="fireworks">烟花</button>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label>粒子颜色</label>
+                <input type="color" id="color-picker" value="#ff0055">
+            </div>
+
+            <div class="control-group">
+                <label>状态: <span id="status-text">等待摄像头...</span></label>
+            </div>
+
+            <button id="fullscreen-btn">全屏显示</button>
+        </div>
+    </div>
+
+    <script type="module" src="./src/main.js"></script>
+</body>
+</html>
