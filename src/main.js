@@ -4,6 +4,7 @@ import { HandTracker } from './handTracking.js';
 document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('canvas-container');
     const videoElement = document.getElementById('input-video');
+    const canvasElement = document.getElementById('output-canvas');
     const statusText = document.getElementById('status-text');
     
     // Initialize Particle System
@@ -13,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let handData = { detected: false, factor: 0 };
 
     // Initialize Hand Tracker
-    const handTracker = new HandTracker(videoElement, (data) => {
+    const handTracker = new HandTracker(videoElement, canvasElement, (data) => {
         handData = data;
         
         if (data.error) {
@@ -47,6 +48,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const colorPicker = document.getElementById('color-picker');
     colorPicker.addEventListener('input', (e) => {
         particleSystem.setColor(e.target.value);
+    });
+
+    // Particle Size
+    const sizeSlider = document.getElementById('size-slider');
+    sizeSlider.addEventListener('input', (e) => {
+        particleSystem.setParticleSize(e.target.value);
+    });
+
+    // Camera Controls
+    const toggleCameraBtn = document.getElementById('toggle-camera-btn');
+    const cameraSizeSlider = document.getElementById('camera-size-slider');
+    const cameraCanvas = document.getElementById('output-canvas');
+    let isCameraVisible = true;
+
+    toggleCameraBtn.addEventListener('click', () => {
+        isCameraVisible = !isCameraVisible;
+        if (isCameraVisible) {
+            cameraCanvas.style.display = 'block';
+            toggleCameraBtn.textContent = '隐藏';
+        } else {
+            cameraCanvas.style.display = 'none';
+            toggleCameraBtn.textContent = '显示';
+        }
+    });
+
+    cameraSizeSlider.addEventListener('input', (e) => {
+        cameraCanvas.style.width = `${e.target.value}px`;
     });
 
     // Fullscreen
