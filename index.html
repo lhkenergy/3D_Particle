@@ -22,8 +22,15 @@
 <body>
     <div id="canvas-container"></div>
     
-    <!-- 隐藏的视频元素，用于 MediaPipe 处理 -->
-    <video id="input-video" style="display: none;"></video>
+    <!-- 摄像头画面容器 -->
+    <div id="camera-container">
+        <video id="input-video" style="display: none;"></video>
+        <canvas id="output-canvas"></canvas>
+        <div class="camera-controls">
+            <button id="toggle-camera-btn">隐藏</button>
+            <input type="range" id="camera-size-slider" min="150" max="480" value="240" title="缩放画面">
+        </div>
+    </div>
 
     <div id="ui-container">
         <div class="panel">
@@ -42,6 +49,11 @@
             <div class="control-group">
                 <label>粒子颜色</label>
                 <input type="color" id="color-picker" value="#ff0055">
+            </div>
+
+            <div class="control-group">
+                <label>粒子大小</label>
+                <input type="range" id="size-slider" min="0.02" max="0.5" step="0.01" value="0.1">
             </div>
 
             <div class="control-group">
