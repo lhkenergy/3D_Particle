@@ -56,6 +56,36 @@ document.addEventListener('DOMContentLoaded', () => {
         particleSystem.setParticleSize(e.target.value);
     });
 
+    // Shape Scale
+    const shapeScaleSlider = document.getElementById('shape-scale-slider');
+    shapeScaleSlider.addEventListener('input', (e) => {
+        particleSystem.setShapeScale(e.target.value);
+    });
+
+    // Rotation Speed
+    const rotationSlider = document.getElementById('rotation-slider');
+    rotationSlider.addEventListener('input', (e) => {
+        let val = parseFloat(e.target.value);
+        // Snap to center
+        if (Math.abs(val) < 0.005) {
+            val = 0;
+            rotationSlider.value = 0;
+        }
+        particleSystem.setRotationSpeed(val);
+    });
+
+    // Gesture Toggle
+    const gestureToggle = document.getElementById('gesture-toggle');
+    gestureToggle.addEventListener('change', (e) => {
+        particleSystem.setGestureEnabled(e.target.checked);
+        if (e.target.checked) {
+            statusText.textContent = "等待手势...";
+        } else {
+            statusText.textContent = "手势控制已禁用";
+            statusText.style.color = "#aaa";
+        }
+    });
+
     // Camera Controls
     const toggleCameraBtn = document.getElementById('toggle-camera-btn');
     const cameraSizeSlider = document.getElementById('camera-size-slider');

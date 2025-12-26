@@ -22,6 +22,9 @@ export class ParticleSystem {
         this.isHandDetected = false;
         this.handFactor = 0; // 0 = closed, 1 = open (spread)
         this.autoRotateSpeed = 0.002;
+        this.shapeScale = 1.0;
+        this.manualRotationSpeed = 0.002;
+        this.isGestureEnabled = true;
         
         this.init();
     }
@@ -95,12 +98,24 @@ export class ParticleSystem {
         }
     }
 
+    setShapeScale(scale) {
+        this.shapeScale = parseFloat(scale);
+    }
+
+    setRotationSpeed(speed) {
+        this.manualRotationSpeed = parseFloat(speed);
+    }
+
+    setGestureEnabled(enabled) {
+        this.isGestureEnabled = enabled;
+    }
+
     update(handData) {
         // handData: { detected: boolean, factor: number (0-1), centerX: number (0-1) }
-        this.isHandDetected = handData.detected;
+        this.isHandDetected = handData.detected && this.isGestureEnabled;
         
         // Smoothly interpolate hand factor
-        const targetFactor = handData.detected ? handData.factor : 0; // Default to 0 if no hand
+        const targetFactor = this.isHandDetected ? handData.factor : 0; // Default to 0 if no hand
         this.handFactor += (targetFactor - this.handFactor) * 0.1;
 
         const positions = this.geometry.attributes.position.array;
@@ -113,9 +128,10 @@ export class ParticleSystem {
             const iz = i * 3 + 2;
 
             // 1. Move towards target shape
-            const tx = this.targetPositions[ix];
-            const ty = this.targetPositions[iy];
-            const tz = this.targetPositions[iz];
+            // Apply shape scale here
+            const tx = this.targetPositions[ix] * this.shapeScale;
+            const ty = this.targetPositions[iy] * this.shapeScale;
+            const tz = this.targetPositions[iz] * this.shapeScale;
 
             // 2. Apply Hand Interaction (Scale & Diffusion)
             if (this.handFactor > 0.01) {
@@ -180,9 +196,9 @@ export class ParticleSystem {
             // Also tilt slightly based on vertical position? (Optional, keeping it simple for now)
             this.particles.rotation.x *= 0.95; // Stabilize X
         } else {
-            // Random rotation when idle
-            this.particles.rotation.y += this.autoRotateSpeed;
-            this.particles.rotation.x += this.autoRotateSpeed * 0.5;
+            // Manual / Auto rotation
+            this.particles.rotation.y += this.manualRotationSpeed;
+            this.particles.rotation.x += this.manualRotationSpeed * 0.5;
         }
 
         this.renderer.render(this.scene, this.camera);
